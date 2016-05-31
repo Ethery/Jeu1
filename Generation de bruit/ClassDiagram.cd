@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Bruit">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQBCAAAAAAAAAABAQCKAQAAUDAAAGAAAAEBA=</HashCode>
+      <FileName>bruit.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Joueur">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <InheritanceLine Type="Unite">
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="-0.473" Y="0.06" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAiAAgCCAAAAAAAAAAAAAAAAAIAAAAAAKCAA=</HashCode>
+      <FileName>joueur.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAiiAgEABgCAAAAACAAAACAEIgCAABCCEAAAKBAA=</HashCode>
+      <FileName>enemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Unite">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIACACACACAhgAAARAAIIAgCBIIIgAAAACICAIoAIA=</HashCode>
+      <FileName>unite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
