@@ -32,7 +32,7 @@ void vectorErase(vector<Enemy> &v,int index)
 void initJeu(Joueur &j, vector<Enemy> &enemys, vector<vector<int>> map)
 {
 	j.setDelaiDeplacement(200);
-	j.setDelaiAttaque(300);
+	j.setDelaiAttaque(200);
 	j.setVie(150);
 	j.setSpritePath("src/D3.png");
 	j.setSprite("src/D3.png");
@@ -330,6 +330,7 @@ int main()
 
 		jVie.setString(std::to_string(j.getVie()));
 		jVie.setPosition(j.getPosition().x*CASE+(CASE/2) - jVie.getLocalBounds().width /2, j.getPosition().y*CASE - CASE / 2);
+
 		window.draw(jVie);
 		window.draw(mouseCursor);
 		window.draw(restart);

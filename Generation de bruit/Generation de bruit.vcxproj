@@ -14,6 +14,7 @@
     <ProjectGuid>{7350B417-86B9-4F40-A795-5DA67BDAFD7F}</ProjectGuid>
     <RootNamespace>Generation_de_bruit</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>Jeu1</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
