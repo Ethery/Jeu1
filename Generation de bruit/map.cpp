@@ -24,7 +24,7 @@ private:
 
 public:
 
-	bool load(const std::string& tileset, sf::Vector2u tileSize, vector<vector<int>> tiles, unsigned int width, unsigned int height)
+	bool load(const std::string& tileset, sf::Vector2u tileSize, sf::Vector2u caseSize, vector<vector<int>> tiles, unsigned int width, unsigned int height)
 	{
 		// on charge la texture du tileset
 		if (!m_tileset.loadFromFile(tileset))
@@ -49,10 +49,10 @@ public:
 				sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
 
 				// on définit ses quatre coins
-				quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-				quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-				quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-				quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+				quad[0].position = sf::Vector2f(i * caseSize.x, j * caseSize.y);
+				quad[1].position = sf::Vector2f((i + 1) * caseSize.x, j * caseSize.y);
+				quad[2].position = sf::Vector2f((i + 1) * caseSize.x, (j + 1) * caseSize.y);
+				quad[3].position = sf::Vector2f(i * caseSize.x, (j + 1) * caseSize.y);
 
 				// on définit ses quatre coordonnées de texture
 				quad[0].texCoords = sf::Vector2f(tu * tileSize.x, tv * tileSize.y);
@@ -60,7 +60,6 @@ public:
 				quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
 				quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
 			}
-
 		return true;
 	}
 };

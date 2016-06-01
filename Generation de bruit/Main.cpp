@@ -9,7 +9,7 @@
 using namespace std;
 
 // Taille de l'image
-#define TAILLE 800
+#define TAILLE 700
 // On définit le nombre d'octaves.
 #define OCTAVES 8
 // On définit le pas.
@@ -33,7 +33,7 @@ void vectorErase(vector<Enemy> &v,int index)
 void initJeu(Joueur &j, vector<Enemy> &enemys, vector<vector<int>> map)
 {
 	j.setDelaiDeplacement(200);
-	j.setDelaiAttaque(200);
+	j.setDelaiAttaque(300);
 	j.setVie(150);
 	j.setSpritePath("src/D3.png");
 	j.setSprite("src/D3.png");
@@ -81,7 +81,7 @@ int main()
 	b.~Bruit();
 
 	TileMap tileMap;
-	if (!tileMap.load("src/map.png", sf::Vector2u(32, 32), map, map.size(), map.size()))
+	if (!tileMap.load("src/map.png", sf::Vector2u(32, 32), sf::Vector2u(CASE, CASE), map, map.size(), map.size()))
 		return -1;
 
 	sf::RectangleShape mouseCursor;
@@ -101,11 +101,22 @@ int main()
 	jVie.setFont(font);
 	jVie.setCharacterSize(CASE / 2);
 
+	srand(time(nullptr));
+
 	sf::CircleShape recuperationMoveJoueur(0, 300);
-	recuperationMoveJoueur.setFillColor(sf::Color(0, 0, 255, 120));
+	int r, v, bl;
+	r = rand() % 40;
+	v = rand() % 40;
+	bl = rand() % 155+100;
+	cout << r << " " << v << " " << bl << endl;
+	recuperationMoveJoueur.setFillColor(sf::Color(r,v,bl, 120));
 
 	sf::CircleShape recuperationAttaqueJoueur(0, 300);
-	recuperationAttaqueJoueur.setFillColor(sf::Color(255, 0, 0, 120));
+	r = rand() % 155 + 100;
+	v = rand() % 40;
+	bl = rand() % 40;
+	cout << r << " " << v << " " << bl << endl;
+	recuperationAttaqueJoueur.setFillColor(sf::Color(r, v, bl, 120));
 	
 	sf::Texture tDegats;
 	tDegats.loadFromFile("src/degats.png");
@@ -135,6 +146,7 @@ int main()
 				enemys[i].getCD()->restart();
 			}
 			j.getClockDeplacement()->restart();
+			j.getClockAttaque()->restart();
 		}
 		sf::Event event;
 		while (window.pollEvent(event))

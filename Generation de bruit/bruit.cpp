@@ -40,18 +40,6 @@ double Bruit::bruit2D(int i, int j) {
 	return valeurs2D[i * longueur + j];
 }
 
-void Bruit::affBruit2D()
-{
-	for (int i = 0; i < longueur_max; i++)
-	{
-		for (int j = 0; j < hauteur_max; j++)
-		{
-			cout << bruit2D(i, j)<<"           ";
-		}
-		cout << endl;
-	}
-}
-
 double Bruit::interpolation_cos2D(double a, double b, double c, double d, double x, double y) {
 	double y1 = interpolation_cos1D(a, b, x);
 	double y2 = interpolation_cos1D(c, d, x);
@@ -94,23 +82,21 @@ sf::Color Bruit::obtenirPixel(int x, int y, float p) {
 int Bruit::obtenirCaseS1(int x, int y, float p, double seuil, int t)
 {
 	double sm = 0.0;
-	for (int i = x; i < x + t; i++)
+	for (int i = x; i < x + t && i < hauteur_max; i++)
 	{
-		for (int j = y; j < y + t; j++)
+		for (int j = y; j < y + t && j < longueur_max; j++)
 		{
 			sm += bruit_coherent2D(i, j, p);
 		}
 	}
 	double valeur = sm / (t*t);
-	int resultat;
 	if (valeur < seuil) {
 
-		resultat = 0;
+		return 0;
 	}
 	else {
-		resultat = 1;
+		return 1;
 	}
-	return resultat;
 }
 
 Bruit::~Bruit()
