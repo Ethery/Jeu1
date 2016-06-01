@@ -76,6 +76,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="joueur.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="unite.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -91,9 +92,8 @@
   <ItemGroup>
     <Image Include="src\D3.png" />
     <Image Include="src\degats.png" />
-    <Image Include="src\eau.png" />
     <Image Include="src\enemy.png" />
-    <Image Include="src\terre.png" />
+    <Image Include="src\map.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="src\arial.ttf" />

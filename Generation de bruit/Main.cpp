@@ -4,6 +4,7 @@
 #include "bruit.h"
 #include "enemy.h"
 #include "joueur.h"
+#include "map.cpp"
 
 using namespace std;
 
@@ -79,17 +80,9 @@ int main()
 
 	b.~Bruit();
 
-	//---------------------------------//
-
-	sf::Texture tSea;
-	tSea.loadFromFile("src/eau.png");
-	tSea.setSmooth(true);
-	sf::Sprite sea(tSea);
-
-	sf::Texture tRock;
-	tRock.loadFromFile("src/terre.png");
-	tRock.setSmooth(true);
-	sf::Sprite rock(tRock);
+	TileMap tileMap;
+	if (!tileMap.load("src/map.png", sf::Vector2u(32, 32), map, map.size(), map.size()))
+		return -1;
 
 	sf::RectangleShape mouseCursor;
 	mouseCursor.setFillColor(sf::Color::Transparent);
@@ -97,8 +90,6 @@ int main()
 	mouseCursor.setOutlineColor(sf::Color::Black);
 	mouseCursor.setOutlineThickness(1);
 
-	sea.setScale(sf::Vector2f(CASE / tSea.getSize().x, CASE / tSea.getSize().y));
-	rock.setScale(sf::Vector2f(CASE / tRock.getSize().x, CASE / tRock.getSize().y));
 
 	//---------------------------------//
 
@@ -133,7 +124,7 @@ int main()
 
 	
 	sf::RenderWindow window;
-	window.setFramerateLimit(60);
+	//window.setFramerateLimit(60);
 	window.create(sf::VideoMode(TAILLE, TAILLE), "Génération de bruit", sf::Style::Default, settings);
 	while (window.isOpen())
 	{
@@ -256,28 +247,15 @@ int main()
 		}
 
 		//AFFICHAGE
+
 		window.clear();
-		for (int i = 0; i < TAILLE / CASE; i++)
-		{
-			for (int j = 0; j < TAILLE / CASE; j++)
-			{
-				if (map[i][j] == 0)
-				{
-					sea.setPosition(sf::Vector2f(i*CASE, j*CASE));
-					window.draw(sea);
-				}
-				else
-				{
-					rock.setPosition(sf::Vector2f(i*CASE, j*CASE));
-					window.draw(rock);
-				}
-			}
-		}
+		window.draw(tileMap);
 
 		for (int i = 0; i < enemys.size(); i++)
 		{
 			enemys[i].setSpritePosition(sf::Vector2f(enemys[i].getPosition().x*CASE, enemys[i].getPosition().y*CASE));
 			degats.setPosition(sf::Vector2f(enemys[i].getPosition().x*CASE, enemys[i].getPosition().y*CASE));
+			degats.setScale(0, 0);
 			window.draw(enemys[i].getSprite());
 			if (enemys[i].getCD()->getElapsedTime().asMilliseconds() < enemys[i].getDelaiAttaque())
 			{
@@ -287,11 +265,6 @@ int main()
 				degats.setPosition(sf::Vector2f(enemys[i].getPosition().x*CASE + (CASE / 2) - (size / 2), enemys[i].getPosition().y*CASE + (CASE / 2) - (size / 2)));
 				degats.setScale(sf::Vector2f(size / tDegats.getSize().x, size / tDegats.getSize().y));
 			}
-			else
-			{
-				degats.setScale(0, 0);
-			}
-
 			window.draw(degats);
 
 			sf::RectangleShape range(sf::Vector2f(CASE, CASE));
@@ -327,6 +300,9 @@ int main()
 			recuperationAttaqueJoueur.setRadius(radius);
 		}
 		window.draw(recuperationAttaqueJoueur);
+
+
+
 
 		jVie.setString(std::to_string(j.getVie()));
 		jVie.setPosition(j.getPosition().x*CASE+(CASE/2) - jVie.getLocalBounds().width /2, j.getPosition().y*CASE - CASE / 2);

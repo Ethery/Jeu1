@@ -30,6 +30,9 @@
     <ClCompile Include="joueur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -50,12 +53,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\eau.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\terre.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="src\D3.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -63,6 +60,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="src\degats.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\map.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
