@@ -5,6 +5,7 @@
 #include "enemy.h"
 #include "joueur.h"
 #include "map.cpp"
+#include "timer.cpp"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ void vectorErase(vector<Enemy> &v,int index)
 void initJeu(Joueur &j, vector<Enemy> &enemys, vector<vector<int>> map)
 {
 	j.setDelaiDeplacement(200);
-	j.setDelaiAttaque(300);
+	j.setDelaiAttaque(500);
 	j.setVie(150);
 	j.setSpritePath("src/D3.png");
 	j.setSprite("src/D3.png");
@@ -101,22 +102,20 @@ int main()
 	jVie.setFont(font);
 	jVie.setCharacterSize(CASE / 2);
 
+	sf::Text restart;
+
 	srand(time(nullptr));
 
-	sf::CircleShape recuperationMoveJoueur(0, 300);
 	int r, v, bl;
 	r = rand() % 40;
 	v = rand() % 40;
-	bl = rand() % 155+100;
-	cout << r << " " << v << " " << bl << endl;
-	recuperationMoveJoueur.setFillColor(sf::Color(r,v,bl, 120));
+	bl = rand() % 155 + 100;
+	Timer recuperationMoveJoueur(sf::Color(r, v, bl, 120));
 
-	sf::CircleShape recuperationAttaqueJoueur(0, 300);
-	r = rand() % 155 + 100;
-	v = rand() % 40;
+	r = rand() % 40;
+	v = rand() % 155 + 100;
 	bl = rand() % 40;
-	cout << r << " " << v << " " << bl << endl;
-	recuperationAttaqueJoueur.setFillColor(sf::Color(r, v, bl, 120));
+	Timer recuperationAttaqueJoueur(sf::Color(r, v, bl, 120));
 	
 	sf::Texture tDegats;
 	tDegats.loadFromFile("src/degats.png");
@@ -136,7 +135,7 @@ int main()
 	
 	sf::RenderWindow window;
 	//window.setFramerateLimit(60);
-	window.create(sf::VideoMode(TAILLE, TAILLE), "Génération de bruit", sf::Style::Default, settings);
+	window.create(sf::VideoMode(TAILLE+300, TAILLE), "Jeu 1", sf::Style::Default, settings);
 	while (window.isOpen())
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U))
@@ -158,9 +157,6 @@ int main()
 			}
 		}
 
-		sf::Text restart;
-		sf::Font font;
-		font.loadFromFile("src/arial.ttf");
 		restart.setFont(font);
 		if (j.getVie() <= 0)
 		{
@@ -269,6 +265,7 @@ int main()
 			degats.setPosition(sf::Vector2f(enemys[i].getPosition().x*CASE, enemys[i].getPosition().y*CASE));
 			degats.setScale(0, 0);
 			window.draw(enemys[i].getSprite());
+
 			if (enemys[i].getCD()->getElapsedTime().asMilliseconds() < enemys[i].getDelaiAttaque())
 			{
 				int tcd = enemys[i].getDelaiAttaque() - enemys[i].getCD()->getElapsedTime().asMilliseconds();
@@ -289,30 +286,19 @@ int main()
 		}
 
 		j.setSpritePosition(sf::Vector2f(j.getPosition().x*CASE, j.getPosition().y*CASE));
-		recuperationMoveJoueur.setPosition(sf::Vector2f(j.getPosition().x*CASE, j.getPosition().y*CASE));
-		recuperationMoveJoueur.setRadius(0);
-		recuperationAttaqueJoueur.setPosition(sf::Vector2f(pMouse.x*CASE, pMouse.y*CASE));
-		recuperationAttaqueJoueur.setRadius(0);
 		window.draw(j.getSprite());
 
 		if (j.getClockDeplacement()->getElapsedTime().asMilliseconds() < j.getDelaiDeplacement())
 		{
-			int tcd = j.getDelaiDeplacement() - j.getClockDeplacement()->getElapsedTime().asMilliseconds();
-			int radius = (((CASE / 2)*tcd) / j.getDelaiDeplacement());
-			recuperationMoveJoueur.setPosition(sf::Vector2f(j.getPosition().x*CASE + (CASE / 2) - radius, j.getPosition().y*CASE + (CASE / 2) - radius));
-			recuperationMoveJoueur.setRadius(radius);
+			recuperationMoveJoueur.reload(sf::Vector2i(j.getPosition().x*CASE + (CASE / 2), j.getPosition().y*CASE + (CASE / 2)), CASE / 2, j.getDelaiDeplacement(), j.getClockDeplacement()->getElapsedTime().asMilliseconds());
+			window.draw(recuperationMoveJoueur);
 		}
-		window.draw(recuperationMoveJoueur);
 
 		if (j.getClockAttaque()->getElapsedTime().asMilliseconds() < j.getDelaiAttaque())
 		{
-			int tcd = j.getDelaiAttaque() - j.getClockAttaque()->getElapsedTime().asMilliseconds();
-			int radius = (((CASE / 2)*tcd) / j.getDelaiAttaque());
-			recuperationAttaqueJoueur.setPosition(sf::Vector2f(pMouse.x*CASE + (CASE / 2) - radius, pMouse.y*CASE + (CASE / 2) - radius));
-			recuperationAttaqueJoueur.setRadius(radius);
+			recuperationAttaqueJoueur.reload(sf::Vector2i(pMouse.x*CASE + (CASE / 2), pMouse.y*CASE + (CASE / 2)), CASE / 2, j.getDelaiAttaque(), j.getClockAttaque()->getElapsedTime().asMilliseconds());
+			window.draw(recuperationAttaqueJoueur);
 		}
-		window.draw(recuperationAttaqueJoueur);
-
 
 
 
