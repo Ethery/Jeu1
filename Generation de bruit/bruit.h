@@ -6,7 +6,7 @@
 #include <iostream>
 #include <SFML\Graphics.hpp>
 
-#define PI 3.14159265
+#define PI 3.141592653589793238462
 
 class Bruit
 {
@@ -25,7 +25,6 @@ public:
 	void initBruit2D(int l, int h, int p, int n);
 	void destroyBruit2D();
 	double bruit2D(int i, int j);
-	void affBruit2D();
 	double interpolation_cos2D(double a, double b, double c, double d, double x, double y);
 	double fonction_bruit2D(double x, double y);
 	double bruit_coherent2D(double x, double y, double persistance);

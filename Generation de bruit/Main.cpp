@@ -33,12 +33,12 @@ void vectorErase(vector<Enemy> &v,int index)
 
 void initJeu(Joueur &j, vector<Enemy> &enemys, vector<vector<int>> map)
 {
-	j.setDelaiDeplacement(200);
+	j.setDelaiDeplacement(500);
 	j.setDelaiAttaque(500);
 	j.setVie(150);
 	j.setSpritePath("src/D3.png");
 	j.setSprite("src/D3.png");
-	j.setPos(sf::Vector2i(2, 2));
+	j.setPos(sf::Vector2i(rand() % map.size(), rand() % map.size()));
 	j.setSpriteScale(sf::Vector2f(CASE / j.getTexture().getSize().x, CASE / j.getTexture().getSize().y));
 	j.cleanRange();
 	j.setRange(j.getPosition().x, j.getPosition().y, j.getRange(), map.size());
@@ -100,7 +100,7 @@ int main()
 	sf::Font font;
 	font.loadFromFile("src/arial.ttf");
 	jVie.setFont(font);
-	jVie.setCharacterSize(CASE / 2);
+	jVie.setCharacterSize(CASE/2);
 
 	sf::Text restart;
 
@@ -216,7 +216,6 @@ int main()
 					{
 						enemys[i].updateJoueur(j.getID(), j.getPosition());
 					}
-
 					j.cleanRange();
 					j.setRange(j.getPosition().x, j.getPosition().y, j.getRange(), map.size());
 				}
@@ -277,7 +276,7 @@ int main()
 			window.draw(degats);
 
 			sf::RectangleShape range(sf::Vector2f(CASE, CASE));
-			range.setFillColor(sf::Color(255, 0, 0, 50));
+			range.setFillColor(sf::Color(255, 0, 0, 60));
 			for (int j = 0; j < enemys[i].getVisitedx().size(); j++)
 			{
 				range.setPosition(CASE*enemys[i].getVisitedx()[j], CASE*enemys[i].getVisitedy()[j]);

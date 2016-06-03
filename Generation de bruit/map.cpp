@@ -20,12 +20,19 @@ private:
 	}
 
 	sf::VertexArray m_vertices;
-	sf::Texture m_tileset;
+	sf::Texture m_tileset; 
+	vector<vector<int>> map;
 
 public:
 
+	int get(int x, int y)
+	{
+		return map[x][y];
+	}
+
 	bool load(const std::string& tileset, sf::Vector2u tileSize, sf::Vector2u caseSize, vector<vector<int>> tiles, unsigned int width, unsigned int height)
 	{
+		map = tiles;
 		// on charge la texture du tileset
 		if (!m_tileset.loadFromFile(tileset))
 			return false;
@@ -39,7 +46,7 @@ public:
 			for (unsigned int j = 0; j < height; ++j)
 			{
 				// on récupère le numéro de tuile courant
-				int tileNumber = tiles[i][j];
+				int tileNumber = map[i][j];
 
 				// on en déduit sa position dans la texture du tileset
 				int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);

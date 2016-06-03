@@ -1,36 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="Bruit">
-    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Position X="3.25" Y="0.5" Width="5.75" />
     <TypeIdentifier>
-      <HashCode>ABAAAAAAQBCAAAAAAAAAABAQCKAQAAUDAAAGAAAAEBA=</HashCode>
+      <HashCode>ABAAAAAAQACAAAAAAAAAABAQCKAQAAUDAAAGAAAAEBA=</HashCode>
       <FileName>bruit.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Joueur">
-    <Position X="3" Y="7.75" Width="1.5" />
-    <InheritanceLine Type="Unite">
+    <Position X="4.5" Y="8.25" Width="3.25" />
+    <InheritanceLine Type="Unite" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.75" Y="7.055" />
+        <Point X="1.75" Y="7.403" />
+        <Point X="3.037" Y="7.403" />
+        <Point X="3.037" Y="8.109" />
+        <Point X="5.688" Y="8.109" />
+        <Point X="5.688" Y="8.25" />
+      </Path>
       <InheritanceModifierLabel ManuallyPlaced="true">
-        <Position X="-0.473" Y="0.06" />
+        <Position X="-0.463" Y="0.019" />
       </InheritanceModifierLabel>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAiAAgCCAAAAAAAAAAAAAAAAAIAAAAAAKCAA=</HashCode>
+      <HashCode>AAAAAQgAkQAAgACIAAAAAACAAQAJABAAJCCAEAAACAA=</HashCode>
       <FileName>joueur.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Enemy">
-    <Position X="0.5" Y="7.75" Width="1.5" />
+    <Position X="0.5" Y="8.25" Width="3.75" />
+    <InheritanceLine Type="Unite" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.75" Y="7.055" />
+        <Point X="1.75" Y="8.142" />
+        <Point X="0.75" Y="8.142" />
+        <Point X="0.75" Y="8.25" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.569" Y="0.144" Height="0.182" Width="0.5" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>EAACAiiAgEABgCAAAAACAAAACAEIgCAABCCEAAAKBAA=</HashCode>
+      <HashCode>AAACAiiAgEABgCAAAAACgACACAEIACAABCCEAAAIBAA=</HashCode>
       <FileName>enemy.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Unite">
-    <Position X="1.75" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAIACACACACAhgAAARAAIIAgCBIIIgAAAACICAIoAIA=</HashCode>
+      <HashCode>AAIAKACACACAhgAAARACIgAgCBIgIgAgAACAAAAIAIA=</HashCode>
       <FileName>unite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Timer">
+    <Position X="9.25" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAIAACAAAAAAAAMAAA=</HashCode>
+      <FileName>timer.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileMap" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="5.5" Width="8.25" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAABIAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>map.cpp</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
