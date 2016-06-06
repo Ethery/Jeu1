@@ -11,6 +11,7 @@ protected:
 	int actionPoints;
 	int movePoints;
 	int attaqueRange;
+	int degats;
 	sf::Vector2i position;
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -19,10 +20,11 @@ protected:
 public:
 	Unite();
 
+	void setDegats(int d);
 	void setVie(int v);
 	void setActionPoints(int ap);
 	void setMovePoints(int mp);
-	void setRange(int range);
+	void setAttaqueRange(int range);
 	void setPos(sf::Vector2i p);
 
 	void setSpritePosition(sf::Vector2f p);
@@ -32,6 +34,7 @@ public:
 	bool setSprite(std::string src);
 	void setSprite(sf::Sprite spr);
 
+	int getDegats();
 	int getVie();
 	int getActionPoints();
 	int getMovePoints();

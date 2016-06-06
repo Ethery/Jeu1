@@ -24,8 +24,10 @@ void Bruit::initBruit2D(int l, int h, int p, int n) {
 	hauteur_max = (int)ceil(hauteur * pow(2, nombre_octaves2D - 1) / pas2D);
 
 	valeurs2D = (double*)malloc(sizeof(double) * longueur_max * hauteur_max);
-
-	srand(time(NULL));
+	
+	seed = time(nullptr);
+	srand(seed);
+	cout <<"seed:"<< seed<<endl;
 	for (int i = 0; i < longueur_max * hauteur_max; i++)
 		valeurs2D[i] = ((double)rand()) / RAND_MAX;
 }
@@ -74,28 +76,39 @@ sf::Color Bruit::obtenirCouleur(int rouge, int vert, int bleu) {
 	return color;
 }
 
-sf::Color Bruit::obtenirPixel(int x, int y, float p) {
-	double valeur = bruit_coherent2D(x, y, p);
-	return obtenirCouleur(valeur*255, valeur*255, valeur*255);
-}
-
-int Bruit::obtenirCaseS1(int x, int y, float p, double seuil, int t)
+int Bruit::obtenirCaseS1(int x, int y, float p, double seuil, double seuil2, int t)
 {
 	double sm = 0.0;
 	for (int i = x; i < x + t && i < hauteur_max; i++)
 	{
 		for (int j = y; j < y + t && j < longueur_max; j++)
 		{
-			sm += bruit_coherent2D(i, j, p);
+			sm += bruit_coherent2D(x, y, p);
 		}
 	}
 	double valeur = sm / (t*t);
-	if (valeur < seuil) {
 
+
+	// TRAITEMENT DE LA TEXTURE / MONDE/ HAUTEUR SELON valeur
+	if (valeur < seuil)
+	{
 		return 0;
 	}
-	else {
+	else if(valeur > seuil && valeur < seuil+0.05)
+	{
 		return 1;
+	}
+	else if (valeur > seuil && valeur < seuil2)
+	{
+		return 2;
+	}
+	else if(valeur > seuil2 && valeur < seuil2+0.5)
+	{
+		return 3;
+	}
+	else
+	{
+		return 4;
 	}
 }
 

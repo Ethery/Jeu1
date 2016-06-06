@@ -18,6 +18,7 @@ private:
 	int longueur_max; 
 	int hauteur_max;
 	double* valeurs2D;
+	int seed;
 
 public:
 	Bruit(int l, int h, int p, int n);
@@ -31,9 +32,7 @@ public:
 
 	sf::Color obtenirCouleur(int rouge, int vert, int bleu);
 
-	sf::Color obtenirPixel(int x, int y, float p);
-	
-	int obtenirCaseS1(int x, int y, float p, double seuil, int t);
+	int Bruit::obtenirCaseS1(int x, int y, float p, double seuil, double seuil2, int t);
 
 	~Bruit();
 };

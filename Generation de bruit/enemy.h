@@ -23,7 +23,6 @@ public:
 	Enemy(int v, int ap, std::vector<std::vector<int>> map);
 	Enemy(int v, int ap,int mp, std::vector<std::vector<int>> map);
 
-	void setRange(int range);
 	int addJoueur(sf::Vector2i jpos);
 	void updateJoueur(int i, sf::Vector2i jpos);
 

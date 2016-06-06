@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 #include "unite.h"
 
@@ -30,6 +31,9 @@ public:
 	sf::Clock* getClockAttaque();
 
 	bool isRanged(int x, int y);
-	void setRange(int x, int y, int range, int tmap);
+	int getVisitedSize();
+	std::vector<int> getVisitedx();
+	std::vector<int> getVisitedy();
+	void setRange(int x, int y, int range, std::vector<std::vector<int>> tmap);
 	void cleanRange();
 };

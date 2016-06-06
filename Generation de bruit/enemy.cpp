@@ -36,11 +36,6 @@ Enemy::Enemy(int v, int ap, int mp, std::vector<std::vector<int>> map):Unite()
 	visitedy.clear();
 }
 
-void Enemy::setRange(int range)
-{
-	attaqueRange = range;
-}
-
 int Enemy::addJoueur(sf::Vector2i jpos)
 {
 	positionsJoueurs.push_back(jpos);
@@ -94,41 +89,6 @@ bool Enemy::isJoueur(int x, int y)
 	return false;
 }
 
-/*
-bool Enemy::canSpell(int x, int y, int range)
-{
-	if (range >= 0)
-	{
-		bool result = false;
-		if (isJoueur(x,y))
-		{
-			result = true;
-		}
-		if (x + 1 < memorisedMap.size())
-		{
-			result = result || canSpell(x + 1, y, range - 1);
-		}
-		if (x - 1 >= 0)
-		{
-			result = result || canSpell(x - 1, y, range - 1);
-		}
-		if (y - 1 >= 0)
-		{
-			result = result || canSpell(x, y - 1, range - 1);
-		}
-		if (y + 1 < memorisedMap.size())
-		{
-			result = result || canSpell(x, y + 1, range - 1);
-		}
-		return result;
-	}
-	else
-	{
-		return false;
-	}
-}
-*/
-
 bool Enemy::canHit(int idJ)
 {
 	for (int i = 0; i < visitedx.size(); i++)
@@ -155,7 +115,7 @@ bool Enemy::isVisited(int x, int y)
 
 void Enemy::setVisited(int x, int y ,int range)
 {
-	if (range >= 0)
+	if (range >= 0 && memorisedMap[x][y] == 2)
 	{
 		if (!isVisited(x, y))
 		{

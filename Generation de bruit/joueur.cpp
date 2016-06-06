@@ -32,7 +32,6 @@ void Joueur::setClockAttaque(sf::Clock delai)
 	clockAttaque = delai;
 }
 
-
 int Joueur::getDelaiDeplacement()
 {
 	return delaiDeplacement;
@@ -70,9 +69,24 @@ bool Joueur::isRanged(int x, int y)
 	return false;
 }
 
-void Joueur::setRange(int x, int y, int range,int tmap)
+int Joueur::getVisitedSize()
 {
-	if (range >= 0)
+	return visitedx.size();
+}
+
+std::vector<int> Joueur::getVisitedx()
+{
+	return visitedx;
+}
+
+std::vector<int> Joueur::getVisitedy()
+{
+	return visitedy;
+}
+
+void Joueur::setRange(int x, int y, int range, vector<vector<int>> tmap)
+{
+	if (range >= 0 && tmap[x][y] != 4)
 	{
 		if (!isRanged(x, y))
 		{
@@ -80,7 +94,7 @@ void Joueur::setRange(int x, int y, int range,int tmap)
 			visitedy.push_back(y);
 		}
 		bool result = false;
-		if (x + 1 < tmap)
+		if (x + 1 < tmap.size())
 		{
 			setRange(x + 1, y, range - 1, tmap);
 		}
@@ -92,7 +106,7 @@ void Joueur::setRange(int x, int y, int range,int tmap)
 		{
 			setRange(x, y - 1, range - 1, tmap);
 		}
-		if (y + 1 < tmap)
+		if (y + 1 < tmap.size())
 		{
 			setRange(x, y + 1, range - 1, tmap);
 		}

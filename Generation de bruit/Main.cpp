@@ -1,4 +1,5 @@
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics.hpp>
+#include <SFML\OpenGL.hpp>
 #include <iostream>
 
 #include "bruit.h"
@@ -10,16 +11,20 @@
 using namespace std;
 
 // Taille de l'image
-#define TAILLE 700
+#define TAILLE 55
 // On définit le nombre d'octaves.
 #define OCTAVES 8
 // On définit le pas.
 #define PAS 100
 // On définit la persistance.
-#define PERSISTANCE 0.5
+#define PERSISTANCE 0.6
 
 // Taille d'une case de jeu
-#define CASE 32.0
+#define CASE 16.0
+
+#define TAILLEECRAN TAILLE*CASE
+
+#define FACTEURPRECISION 2
 
 void vectorErase(vector<Enemy> &v,int index)
 {
@@ -33,31 +38,45 @@ void vectorErase(vector<Enemy> &v,int index)
 
 void initJeu(Joueur &j, vector<Enemy> &enemys, vector<vector<int>> map)
 {
-	j.setDelaiDeplacement(500);
-	j.setDelaiAttaque(500);
+	j.setDelaiDeplacement(300);
+	j.setDelaiAttaque(300);
 	j.setVie(150);
 	j.setSpritePath("src/D3.png");
 	j.setSprite("src/D3.png");
-	j.setPos(sf::Vector2i(rand() % map.size(), rand() % map.size()));
+	j.setAttaqueRange(7);
+	int x = rand() % map.size();
+	int y = rand() % map.size();
+	while (map[x][y] == 2)
+	{
+		x = rand() % map.size();
+		y = rand() % map.size();
+	}
+	j.setPos(sf::Vector2i(x,y));
 	j.setSpriteScale(sf::Vector2f(CASE / j.getTexture().getSize().x, CASE / j.getTexture().getSize().y));
 	j.cleanRange();
-	j.setRange(j.getPosition().x, j.getPosition().y, j.getRange(), map.size());
+	j.setRange(j.getPosition().x, j.getPosition().y, j.getRange(), map);
 
 	enemys.clear();
 
 	srand(time(nullptr));
-	for (int i = 0; i < rand() % 20+20; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		enemys.push_back(Enemy(map));
 	}
-	cout << enemys.size() << endl;
 	for (int i = 0; i < enemys.size(); i++)
 	{
-		enemys[i].setPos(sf::Vector2i(rand() % map.size(), rand() % map.size()));
+		int x = rand() % map.size();
+		int y = rand() % map.size();
+		if (map[x][y] != 2)
+		{
+			i--;
+			continue;
+		}
+		enemys[i].setPos(sf::Vector2i(x,y));
 		enemys[i].setSpritePath("src/enemy.png");
 		enemys[i].setSprite("src/enemy.png");
 		enemys[i].setSpriteScale(sf::Vector2f(CASE / enemys[i].getTexture().getSize().x, CASE / enemys[i].getTexture().getSize().y));
-		enemys[i].setDelaiAttaque(1000);
+		enemys[i].setDelaiAttaque(700);
 		enemys[i].setDelaiAttaque(sf::Clock());
 		j.setID(enemys[i].addJoueur(j.getPosition()));
 		enemys[i].cleanVisited();
@@ -67,14 +86,14 @@ void initJeu(Joueur &j, vector<Enemy> &enemys, vector<vector<int>> map)
 
 int main()
 {
-	Bruit b = Bruit(TAILLE, TAILLE, PAS, OCTAVES);
+	Bruit b = Bruit(TAILLE*FACTEURPRECISION, TAILLE*FACTEURPRECISION, PAS, OCTAVES);
 	vector<vector<int>> map;
-	for (int i = 0; i < TAILLE/CASE; i++)
+	for (int i = 0; i < TAILLE; i++)
 	{
 		vector<int> d1;
-		for (int j = 0; j < TAILLE/CASE; j++)
+		for (int j = 0; j < TAILLE; j++)
 		{
-			d1.push_back(b.obtenirCaseS1(i*CASE, j*CASE, PERSISTANCE, 0.5, CASE));
+			d1.push_back(b.obtenirCaseS1(i*FACTEURPRECISION, j*FACTEURPRECISION, PERSISTANCE, 0.45,0.70, FACTEURPRECISION));
 		}
 		map.push_back(d1);
 	}
@@ -91,6 +110,8 @@ int main()
 	mouseCursor.setOutlineColor(sf::Color::Black);
 	mouseCursor.setOutlineThickness(1);
 
+	sf::CircleShape range(CASE/2);
+	range.setFillColor(sf::Color(255, 0, 0, 60));
 
 	//---------------------------------//
 
@@ -98,7 +119,7 @@ int main()
 
 	sf::Text jVie;
 	sf::Font font;
-	font.loadFromFile("src/arial.ttf");
+	font.loadFromFile("C:/Windows/Fonts/arial.ttf");
 	jVie.setFont(font);
 	jVie.setCharacterSize(CASE/2);
 
@@ -109,11 +130,11 @@ int main()
 	int r, v, bl;
 	r = rand() % 40;
 	v = rand() % 40;
-	bl = rand() % 155 + 100;
+	bl = rand() % 205 + 50;
 	Timer recuperationMoveJoueur(sf::Color(r, v, bl, 120));
 
 	r = rand() % 40;
-	v = rand() % 155 + 100;
+	v = rand() % 205 + 50;
 	bl = rand() % 40;
 	Timer recuperationAttaqueJoueur(sf::Color(r, v, bl, 120));
 	
@@ -130,12 +151,23 @@ int main()
 	sf::Vector2i pMouse;
 
 	sf::ContextSettings settings;
-	settings.antialiasingLevel = 4;
+	settings.antialiasingLevel = 0;
 
-	
+	std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+
+	modes.push_back(sf::VideoMode::getDesktopMode());
+	sf::VideoMode mode = modes[modes.size() - 1];
+	cout << "Desktop mode: " << mode.width << "x" << mode.height << " - " << mode.bitsPerPixel << " bpp" << endl;
+
+	for (std::size_t i = 0; i < modes.size(); ++i)
+	{
+		mode = modes[i];
+		cout << "Mode #" << i << ": " << mode.width << "x" << mode.height << " - " << mode.bitsPerPixel << " bpp" << endl;
+	}
+
+
 	sf::RenderWindow window;
-	//window.setFramerateLimit(60);
-	window.create(sf::VideoMode(TAILLE+300, TAILLE), "Jeu 1", sf::Style::Default, settings);
+	window.create(modes[8], "Jeu 1", sf::Style::Default, settings);
 	while (window.isOpen())
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U))
@@ -183,6 +215,8 @@ int main()
 		}
 		else
 		{
+
+			restart.setString("");
 			//CALCULS JEU / TOUR
 			pMouse.x = sf::Mouse::getPosition(window).x / CASE;
 			pMouse.y = sf::Mouse::getPosition(window).y / CASE;
@@ -190,7 +224,7 @@ int main()
 			if (j.getClockDeplacement()->getElapsedTime().asMilliseconds() > j.getDelaiDeplacement())
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
-					&& j.getPosition().x < (TAILLE / CASE) - 1)
+					&& j.getPosition().x < ((TAILLE*CASE) / CASE) - 1)
 				{
 					j.setPos(sf::Vector2i(j.getPosition().x + 1, j.getPosition().y));
 				}
@@ -200,7 +234,7 @@ int main()
 					j.setPos(sf::Vector2i(j.getPosition().x - 1, j.getPosition().y));
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-					&& j.getPosition().y < (TAILLE / CASE) - 1)
+					&& j.getPosition().y < ((TAILLE*CASE) / CASE) - 1)
 				{
 					j.setPos(sf::Vector2i(j.getPosition().x, j.getPosition().y + 1));
 				}
@@ -217,7 +251,7 @@ int main()
 						enemys[i].updateJoueur(j.getID(), j.getPosition());
 					}
 					j.cleanRange();
-					j.setRange(j.getPosition().x, j.getPosition().y, j.getRange(), map.size());
+					j.setRange(j.getPosition().x, j.getPosition().y, j.getRange(), map);
 				}
 			}
 
@@ -246,7 +280,7 @@ int main()
 				{
 					if (enemys[i].canHit(j.getID()))
 					{
-						j.setVie(j.getVie() - 1);
+						j.setVie(j.getVie() - enemys[i].getDegats());
 						enemys[i].getCD()->restart();
 					}
 				}
@@ -258,6 +292,7 @@ int main()
 		window.clear();
 		window.draw(tileMap);
 
+		range.setFillColor(sf::Color(255, 0, 0, 60));
 		for (int i = 0; i < enemys.size(); i++)
 		{
 			enemys[i].setSpritePosition(sf::Vector2f(enemys[i].getPosition().x*CASE, enemys[i].getPosition().y*CASE));
@@ -275,13 +310,18 @@ int main()
 			}
 			window.draw(degats);
 
-			sf::RectangleShape range(sf::Vector2f(CASE, CASE));
-			range.setFillColor(sf::Color(255, 0, 0, 60));
 			for (int j = 0; j < enemys[i].getVisitedx().size(); j++)
 			{
 				range.setPosition(CASE*enemys[i].getVisitedx()[j], CASE*enemys[i].getVisitedy()[j]);
 				window.draw(range);
 			}
+		}
+
+		range.setFillColor(sf::Color(0, 0, 255, 60));
+		for (int i = 0; i < j.getVisitedSize(); i++)
+		{
+			range.setPosition(CASE*j.getVisitedx()[i], CASE*j.getVisitedy()[i]);
+			window.draw(range);
 		}
 
 		j.setSpritePosition(sf::Vector2f(j.getPosition().x*CASE, j.getPosition().y*CASE));

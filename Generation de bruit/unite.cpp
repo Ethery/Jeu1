@@ -10,6 +10,12 @@ Unite::Unite()
 	attaqueRange = 5;
 	position.x = 0;
 	position.y = 0;
+	degats = 100;
+}
+
+void Unite::setDegats(int d)
+{
+	degats = d;
 }
 
 void Unite::setVie(int v)
@@ -27,7 +33,7 @@ void Unite::setMovePoints(int mp)
 	movePoints = mp;
 }
 
-void Unite::setRange(int range)
+void Unite::setAttaqueRange(int range)
 {
 	attaqueRange = range;
 }
@@ -35,6 +41,11 @@ void Unite::setRange(int range)
 void Unite::setPos(sf::Vector2i p)
 {
 	position = p;
+}
+
+int Unite::getDegats()
+{
+	return degats;
 }
 
 int Unite::getVie()
