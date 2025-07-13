@@ -4,6 +4,7 @@ using namespace std;
 
 Bruit::Bruit(int l, int h, int p, int n)
 {
+	longueur = 0;
 	initBruit2D(l, h, p, n);
 }
 

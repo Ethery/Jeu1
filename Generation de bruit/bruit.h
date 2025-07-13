@@ -4,7 +4,7 @@
 #include <cmath>
 #include <ctime>
 #include <iostream>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #define PI 3.141592653589793238462
 

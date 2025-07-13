@@ -4,7 +4,7 @@
 
 #include "bruit.h"
 #include "enemy.h"
-#include "joueur.h"
+#include "joueur.h" 
 #include "map.cpp"
 #include "timer.cpp"
 
@@ -117,9 +117,10 @@ int main()
 
 	Joueur j;
 
-	sf::Text jVie;
 	sf::Font font;
 	font.loadFromFile("C:/Windows/Fonts/arial.ttf");
+
+	sf::Text jVie;
 	jVie.setFont(font);
 	jVie.setCharacterSize(CASE/2);
 
